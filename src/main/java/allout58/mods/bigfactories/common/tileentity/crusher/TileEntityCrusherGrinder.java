@@ -1,5 +1,9 @@
-package allout58.mods.bigfactories.common.tileentity;
+package allout58.mods.bigfactories.common.tileentity.crusher;
 
+import allout58.mods.bigfactories.common.tileentity.interfaces.IDropableInventory;
+import allout58.mods.bigfactories.common.tileentity.interfaces.IEnergyConsumer;
+import allout58.mods.bigfactories.common.tileentity.interfaces.IMBMaster;
+import allout58.mods.bigfactories.common.tileentity.interfaces.IMBSlave;
 import allout58.mods.bigfactories.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -9,14 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by James Hollowell on 8/1/2014.
  */
-public class TileEntityMachineOutput extends TileEntity
-        implements IMBSlave, ISidedInventory, IDropableInventory
+public class TileEntityCrusherGrinder extends TileEntity
+        implements IMBSlave, ISidedInventory, IDropableInventory, IEnergyConsumer
 {
-    public static final int INV_SIZE = 3;
-
     private int masterX, masterY, masterZ;
-
-    private ItemStack[] inventory = new ItemStack[INV_SIZE];
+    private ItemStack inventory;
 
     @Override
     public IMBMaster getMaster()
@@ -45,32 +46,32 @@ public class TileEntityMachineOutput extends TileEntity
     @Override
     public int[] getAccessibleSlotsFromSide(int side)
     {
-        return new int[] { 0, 1, 2 };
+        return new int[] { 0 };
     }
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side)
     {
-        return isItemValidForSlot(slot, stack);
+        return true;
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack var2, int side)
+    public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
-        return false;
+        return true;
     }
 
     @Override
     public int getSizeInventory()
     {
-        return INV_SIZE;
+        return 1;
     }
 
     @Override
     public ItemStack getStackInSlot(int slot)
     {
-        if (slot > INV_SIZE) return null;
-        return inventory[slot];
+        if (slot != 0) return null;
+        return inventory;
     }
 
     @Override
@@ -109,7 +110,7 @@ public class TileEntityMachineOutput extends TileEntity
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
-        inventory[slot] = stack;
+        inventory = stack;
         if (stack != null && stack.stackSize > getInventoryStackLimit())
         {
             stack.stackSize = getInventoryStackLimit();
@@ -119,7 +120,7 @@ public class TileEntityMachineOutput extends TileEntity
     @Override
     public String getInventoryName()
     {
-        return "container.machineInput";
+        return null;
     }
 
     @Override
@@ -131,11 +132,11 @@ public class TileEntityMachineOutput extends TileEntity
     @Override
     public int getInventoryStackLimit()
     {
-        return 64;
+        return 1;
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer var1)
+    public boolean isUseableByPlayer(EntityPlayer player)
     {
         return true;
     }
@@ -143,25 +144,32 @@ public class TileEntityMachineOutput extends TileEntity
     @Override
     public void openInventory()
     {
+
     }
 
     @Override
     public void closeInventory()
     {
+
     }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return true;
+        //TODO: make sure it is a valid item
+        return false;
     }
 
+    @Override
     public void dropContents()
     {
-        for (int i = 0; i < INV_SIZE; i++)
-        {
-            ItemStackHelper.spawnItemStackInWorld(getStackInSlot(i), worldObj, xCoord, yCoord + 1, zCoord);
-            setInventorySlotContents(i, null);
-        }
+        ItemStackHelper.spawnItemStackInWorld(getStackInSlot(0), worldObj, xCoord, yCoord + 1, zCoord);
+        setInventorySlotContents(0, null);
+    }
+
+    @Override
+    public int getConsumptionRate()
+    {
+        return 5;
     }
 }

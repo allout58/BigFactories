@@ -1,5 +1,8 @@
-package allout58.mods.bigfactories.common.tileentity;
+package allout58.mods.bigfactories.common.tileentity.general;
 
+import allout58.mods.bigfactories.common.tileentity.interfaces.IDropableInventory;
+import allout58.mods.bigfactories.common.tileentity.interfaces.IMBMaster;
+import allout58.mods.bigfactories.common.tileentity.interfaces.IMBSlave;
 import allout58.mods.bigfactories.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -9,10 +12,11 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by James Hollowell on 8/1/2014.
  */
-public class TileEntityMachineInput extends TileEntity
+public class TileEntityMachineOutput extends TileEntity
         implements IMBSlave, ISidedInventory, IDropableInventory
 {
     public static final int INV_SIZE = 3;
+
     private int masterX, masterY, masterZ;
 
     private ItemStack[] inventory = new ItemStack[INV_SIZE];

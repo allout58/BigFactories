@@ -1,4 +1,4 @@
-package allout58.mods.bigfactories.common.tileentity;
+package allout58.mods.bigfactories.common.tileentity.interfaces;
 
 import net.minecraft.inventory.IInventory;
 
