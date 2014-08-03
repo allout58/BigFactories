@@ -1,6 +1,7 @@
 package allout58.mods.bigfactories.common.block;
 
 import allout58.mods.bigfactories.BigFactories;
+import allout58.mods.bigfactories.lib.ModInfo;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -16,9 +17,9 @@ public class BlockConcrete extends Block
     {
         super(Material.rock);
         setBlockName("concrete");
-        setHardness(0.4f);
+        setHardness(0.8f);
         setStepSound(soundTypeStone);
-        setBlockTextureName("concrete");
+        setBlockTextureName(ModInfo.MOD_ID+":concrete");
         setCreativeTab(BigFactories.creativeTab);
     }
 }

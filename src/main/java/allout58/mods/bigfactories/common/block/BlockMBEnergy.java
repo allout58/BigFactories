@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -25,7 +26,8 @@ import java.util.List;
  */
 public class BlockMBEnergy extends BlockContainer
 {
-    public IIcon[] iconFurnace = new IIcon[3];
+    private IIcon[] iconFurnace = new IIcon[3];
+    private IIcon[] iconBattery = new IIcon[2];
 
     protected BlockMBEnergy()
     {
@@ -39,11 +41,14 @@ public class BlockMBEnergy extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister ir)
     {
-        blockIcon = ir.registerIcon("minecraft:energy");
+        blockIcon = ir.registerIcon("minecraft:stone");
 
         iconFurnace[0] = ir.registerIcon(ModInfo.MOD_ID + ":energy/furnaceOff");
         iconFurnace[1] = ir.registerIcon(ModInfo.MOD_ID + ":energy/furnaceOn");
         iconFurnace[2] = ir.registerIcon(ModInfo.MOD_ID + ":energy/furnaceSide");
+
+        iconBattery[0] = ir.registerIcon(ModInfo.MOD_ID + ":energy/batteryFace");
+        iconBattery[1] = ir.registerIcon(ModInfo.MOD_ID + ":energy/batterySide");
     }
 
     @Override
@@ -52,22 +57,47 @@ public class BlockMBEnergy extends BlockContainer
     {
         int meta = world.getBlockMetadata(x, y, z);
         TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof IFacing)
+
+        switch (meta)
         {
-            switch (meta)
-            {
-                case 0:
+            case 0:
+                if (te instanceof IFacing)
+                {
                     if (side == ((IFacing) te).getFacing())
                         return iconFurnace[0];
                         //TODO: Check if is on for on face
                     else return iconFurnace[2];
-                default:
+                }
+                else
                     return blockIcon;
-            }
+            case 1:
+                return getIcon(side, 1);
+            default:
+                return blockIcon;
         }
-        else
-            return blockIcon;
     }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    //For item rendering
+    public IIcon getIcon(int side, int meta)
+    {
+        switch (meta)
+        {
+            case 0:
+                if (side == ForgeDirection.NORTH.ordinal())
+                    return iconFurnace[0];
+                else return iconFurnace[2];
+            case 1:
+                if (side == ForgeDirection.UP.ordinal() || side == ForgeDirection.DOWN.ordinal())
+                    return iconBattery[1];
+                else return iconBattery[0];
+            default:
+                return blockIcon;
+        }
+    }
+
+
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override

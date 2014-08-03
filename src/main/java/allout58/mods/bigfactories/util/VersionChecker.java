@@ -86,7 +86,7 @@ public class VersionChecker implements Runnable
                 }
             }
         }
-        LogHelper.error("ChowTime Remote version check failed after %d attempts.", CHECK_COUNT);
+        LogHelper.error("BigFactories remote version check failed after %d attempts.", CHECK_COUNT);
     }
 
     private void LogResult()

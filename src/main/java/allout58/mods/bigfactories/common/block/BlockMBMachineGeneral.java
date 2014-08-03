@@ -40,7 +40,7 @@ public class BlockMBMachineGeneral extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister ir)
     {
-        blockIcon = ir.registerIcon("minecraft:energy");
+        blockIcon = ir.registerIcon("minecraft:stone");
 
         iconSide = ir.registerIcon(ModInfo.MOD_ID + ":mbgeneral/side");
         iconIO[0] = ir.registerIcon(ModInfo.MOD_ID + ":mbgeneral/input");
@@ -65,6 +65,25 @@ public class BlockMBMachineGeneral extends BlockContainer
                 return blockIcon;
         }
 
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    //For item rendering
+    public IIcon getIcon(int side, int meta)
+    {
+        if (side == ForgeDirection.UP.ordinal() || side == ForgeDirection.DOWN.ordinal())
+            return iconSide;
+
+        switch (meta)
+        {
+            case 0:
+                return iconIO[0];
+            case 1:
+                return iconIO[1];
+            default:
+                return blockIcon;
+        }
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

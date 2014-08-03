@@ -4,8 +4,8 @@ tile.concrete.name=Concrete
 
 tile.mbMaster.crusher.name=Crusher Core
 
-tile.mbEnergy.furnace.name=Furnace Generator
-tile.mbEnergy.bsttery.name=Battery
+tile.mbEnergy.furnaceGenerator.name=Furnace Generator
+tile.mbEnergy.battery.name=Battery
 
 tile.mbMachine.input.name=Machine Input
 tile.mbMachine.output.name=Machine Output

@@ -11,4 +11,5 @@ public interface IFacing
     public ForgeDirection getForgeFacing();
     public void setFacing(int facing);
     public void setFacing(ForgeDirection facing);
+    public void rotate();
 }

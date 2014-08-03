@@ -10,12 +10,15 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -66,6 +69,22 @@ public class BlockMBMaster extends BlockContainer
             return blockIcon;
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    //For item rendering
+    public IIcon getIcon(int side, int meta)
+    {
+        switch (meta)
+        {
+            case 0:
+                if (side == ForgeDirection.SOUTH.ordinal())
+                    return iconCrusher[0];
+                else return iconCrusher[1];
+            default:
+                return blockIcon;
+        }
+    }
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @SideOnly(Side.CLIENT)
@@ -92,6 +111,18 @@ public class BlockMBMaster extends BlockContainer
                 return new TileEntityCrusher();
             default:
                 return null;
+        }
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack par6ItemStack)
+    {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof IFacing)
+        {
+
+
+            ((IFacing) te).setFacing(direction);
         }
     }
 }
